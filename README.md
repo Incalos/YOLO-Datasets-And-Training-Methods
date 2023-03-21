@@ -1,6 +1,6 @@
 # YOLO Datasets And Training Methods
 
-本项目主要关于制作YOLO算法的自定义数据集和使用自定义数据集进行模型训练。此外，提供了YOLOv5、YOLOv6、YOLOv7、YOLOv8的官方代码以及对应的目标检测预训练权重，详细信息可进入文件夹中查看。
+本项目主要关于制作YOLO算法的自定义数据集和使用自定义数据集进行模型训练。此外，提供了YOLOv5、YOLOv6、YOLOv7、YOLOv8的官方代码以及对应的目标检测预训练权重下载链接，详细信息可进入文件夹中查看。
 
 ## 一、数据集制作
 
@@ -30,7 +30,7 @@
 
   ![](assets/2.png)
 
-    * 建议YOLO算法的数据集文件夹设置成如下结构。其中 **images** 文件夹为待标注的图片文件夹，**Annotations** 文件夹为标签的保存位置。
+    * 建议YOLO算法的数据集文件夹设置成如下结构。其中 **YoloDataSets** 为数据集名称，**images** 文件夹为待标注的图片文件夹，**Annotations** 文件夹为标签的保存位置。
   ```
   YoloDataSets 
    |——————images
@@ -45,17 +45,17 @@
    |        └——————...
   ```
 
-    * 点击 **Open Dir** 选择 **images** 文件夹，用于打开待标注的图片。
+    * 点击 **Open Dir** 选择 **images** 文件夹，打开待标注的图片。
 
-    * 点击 **Change Save Dir** 选择 **Annotations** 文件夹，用于保存标注后的标签。
+    * 点击 **Change Save Dir** 选择 **Annotations** 文件夹，设置标签的保存位置。
 
-    * 开始进行标图。
+    * 开始标图，具体过程如下。
 
   ![](assets/video.gif)
 
-### 3. 将VOC格式数据集转换成YOLO数据集
+### 3. 将VOC格式数据集转换成YOLO格式数据集
 
-* 将待转化的数据集按以下结构保存。
+* 将2中制作好的待转化的数据集按以下结构保存。
 
   ```
   YoloDataSets 
@@ -88,7 +88,7 @@
 
   **mainpath** : 数据集的路径，这里是 YoloDataSets ，当然 YoloDataSets 也可以换成其他的
 
-  **classes** : 标签的类别，请按照示例的格式填写
+  **classes** : 所有标签的名称，请按照示例的格式填写
 
   ```python
   import argparse
