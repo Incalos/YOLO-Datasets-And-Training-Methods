@@ -1,13 +1,13 @@
 # YOLO Datasets And Training Methods
 
-本项目主要涉及YOLO算法的数据集制作以及简要的训练方法，并且提供了YOLO算法官方代码以及对应的目标检测预训练权重，详细信息可进入对应的文件夹中查看。
+本项目主要关于YOLO算法的自定义数据集制作以及YOLO算法的训练过程，并且提供了YOLO算法官方代码以及对应的目标检测预训练权重，详细信息可进入文件夹中查看。
 
 ## 一、数据集制作
 
 ### 1. 数据采集
 
 * 如果使用 **Intel RealSense**
-  深度相机采集图像制作数据集，详细情况可以查看 [Images-Acquisition-With-RealSense](https://github.com/Incalos/Images-Acquisition-With-RealSense)
+  深度相机采集图像制作数据集，可以查看 [Images-Acquisition-With-RealSense](https://github.com/Incalos/Images-Acquisition-With-RealSense)。
 
 ### 2. 数据标注
 
@@ -26,11 +26,11 @@
 
   ![](assets/1.png)
 
-    * 一般推荐数据集保存格式设置成 **PascalVOC** 格式。
+    * 建议数据集格式设置成 **PascalVOC** 格式。
 
   ![](assets/2.png)
 
-    * YOLO算法的标注文件夹设置成如下结构。其中 **images** 文件夹为待标注的图片文件夹，**Annotations** 为标注完成后标签的保存位置。
+    * 建议YOLO算法的数据集文件夹设置成如下结构。其中 **images** 文件夹为待标注的图片文件夹，**Annotations** 文件夹为标签的保存位置。
   ```
   YoloDataSets 
    |——————images
@@ -45,17 +45,17 @@
    |        └——————...
   ```
 
-    * 点击 **Open Dir** 选择 **images** 文件夹。
+    * 点击 **Open Dir** 选择 **images** 文件夹，用于打开待标注的图片。
 
-    * 点击 **Change Save Dir** 选择 **Annotations** 文件夹。
+    * 点击 **Change Save Dir** 选择 **Annotations** 文件夹，用于保存标注后的标签。
 
     * 开始进行标图。
 
   ![](assets/video.gif)
 
-### 3. 转换成YOLO数据集
+### 3. 将VOC格式数据集转换成YOLO数据集
 
-* 将待转化的已标注数据按以下结构保存。
+* 将待转化的数据集按以下结构保存。
 
   ```
   YoloDataSets 
@@ -80,13 +80,13 @@
                                   yolov8                    ···                ···             ····                   ['','',···]
   ```
 
-  **yoloversion** : 表示 YOLO 的版本，可选择 YOLOv5、YOLOv6、YOLOv7、YOLOv8
+  **yoloversion** : YOLO 的版本，可选择 YOLOv5、YOLOv6、YOLOv7、YOLOv8
 
   **trainval_percent** : 训练集和验证集的总占比，1-trainval_percent 为测试集占比
 
   **train_percent** : 训练集在训练集和验证集中的占比
 
-  **mainpath** : YoloDataSets 的路径，当然数据集名 YoloDataSets 也可以换成其他的
+  **mainpath** : 数据集的路径，这里是 YoloDataSets ，当然 YoloDataSets 也可以换成其他的
 
   **classes** : 标签的类别，请按照示例的格式填写
 
@@ -106,7 +106,7 @@
 
 ## 二、训练YOLO算法
 
-### 1. YOLOv5训练方法
+### 1. YOLOv5的训练方法
 
 * 进入 **yolov5** 文件夹。
 
@@ -116,7 +116,7 @@
 
 * 将 **YoloDataSets** 数据集放在 **yolov5** 文件夹中。
 
-* 在 **YoloDataSets** 目录下添加 **yaml** 配置文件 **data.yaml** ，内容格式如下。
+* 在 **YoloDataSets** 目录下添加 **yaml** 配置文件 **data.yaml** ，内容和格式如下。
 
   ```
   path : YoloDataSets
@@ -158,7 +158,7 @@
   | [YOLOv5x6](https://github.com/ultralytics/yolov5/releases/download/v7.0/yolov5x6.pt)<br>+ [TTA] | 1280<br>1536          | 55.0<br>**55.8**     | 72.7<br>**72.7**  | 3136<br>-                    | 26.2<br>-                     | 19.4<br>-                      | 140.7<br>-         | 209.8<br>-             |
 
 
-### 2. YOLOv6训练方法
+### 2. YOLOv6的训练方法
 
 * 进入 **yolov6** 文件夹。
 
@@ -168,7 +168,7 @@
 
 * 将 **YoloDataSets** 数据集放在 **yolov6** 文件夹中。
 
-* 在 **YoloDataSets** 目录下添加 **yaml** 配置文件 **data.yaml** ，内容格式如下。
+* 在 **YoloDataSets** 目录下添加 **yaml** 配置文件 **data.yaml** ，内容和格式如下。
 
   ```
   train: YoloDataSets/images/train       # train images
@@ -203,7 +203,7 @@
   | [**YOLOv6-M6**](https://github.com/meituan/YOLOv6/releases/download/0.3.0/yolov6m6.pt) | 1280 | 55.2                     | 47                                      | 55                                       | 79.6                 | 379.5               |
   | [**YOLOv6-L6**](https://github.com/meituan/YOLOv6/releases/download/0.3.0/yolov6l6.pt) | 1280 | 57.2                     | 26                                      | 29                                       | 140.4                | 673.4               |
 
-### 3. YOLOv7训练方法
+### 3. YOLOv7的训练方法
 
 * 进入 **yolov7** 文件夹。
 
@@ -213,7 +213,7 @@
 
 * 将 **YoloDataSets** 数据集放在 **yolov7** 文件夹中。
 
-* 在 **YoloDataSets** 目录下添加 **yaml** 配置文件 **data.yaml** ，内容格式如下。
+* 在 **YoloDataSets** 目录下添加 **yaml** 配置文件 **data.yaml** ，内容和格式如下。
 
   ```
   train: YoloDataSets/train.txt
@@ -251,7 +251,7 @@
 
 
 
-### 4. YOLOv8训练方法
+### 4. YOLOv8的训练方法
 
 * 进入 **yolov8** 文件夹。
 
@@ -261,7 +261,7 @@
 
 * 将 **YoloDataSets** 数据集放在 **yolov8** 文件夹中。
 
-* 在 **YoloDataSets** 目录下添加 **yaml** 配置文件 **data.yaml** ，内容格式如下。
+* 在 **YoloDataSets** 目录下添加 **yaml** 配置文件 **data.yaml** ，内容和格式如下。
 
   ```
   path : ../YoloDataSets
