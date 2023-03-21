@@ -114,7 +114,7 @@
   cd yolov5
   ```
 
-* 将 **YoloDataSets** 数据集放在 **yolov5** 文件夹中。
+* 将转换后的 **YoloDataSets** 数据集放在 **yolov5** 文件夹中。
 
 * 在 **YoloDataSets** 目录下添加 **yaml** 配置文件 **data.yaml** ，内容和格式如下。
 
@@ -166,7 +166,7 @@
   cd yolov6
   ```
 
-* 将 **YoloDataSets** 数据集放在 **yolov6** 文件夹中。
+* 将转换后的 **YoloDataSets** 数据集放在 **yolov6** 文件夹中。
 
 * 在 **YoloDataSets** 目录下添加 **yaml** 配置文件 **data.yaml** ，内容和格式如下。
 
@@ -211,7 +211,7 @@
   cd yolov7
   ```
 
-* 将 **YoloDataSets** 数据集放在 **yolov7** 文件夹中。
+* 将转换后的 **YoloDataSets** 数据集放在 **yolov7** 文件夹中。
 
 * 在 **YoloDataSets** 目录下添加 **yaml** 配置文件 **data.yaml** ，内容和格式如下。
 
@@ -253,7 +253,7 @@
 
 ### 4. YOLOv8的训练方法
 
-* 进入 **yolov8** 文件夹。
+* 进入转换后的 **yolov8** 文件夹。
 
   ```
   cd yolov8
