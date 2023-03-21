@@ -8,7 +8,6 @@
 
 * 如果使用 **Intel RealSense**
   深度相机采集图像制作数据集，详细情况可以查看 [Images-Acquisition-With-RealSense](https://github.com/Incalos/Images-Acquisition-With-RealSense)
-  。
 
 ### 2. 数据标注
 
