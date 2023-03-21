@@ -80,15 +80,15 @@
                                   yolov8                    ···                ···             ····                   ['','',···]
   ```
 
-  **yoloversion** : YOLO 的版本，可选择 YOLOv5、YOLOv6、YOLOv7、YOLOv8
+  **yoloversion** : `YOLO 的版本，可选择 YOLOv5、YOLOv6、YOLOv7、YOLOv8`
 
-  **trainval_percent** : 训练集和验证集的总占比，1-trainval_percent 为测试集占比
+  **trainval_percent** : `训练集和验证集的总占比，1-trainval_percent 为测试集占比`
 
-  **train_percent** : 训练集在训练集和验证集中的占比
+  **train_percent** : `训练集在训练集和验证集中的占比`
 
-  **mainpath** : 数据集的路径，这里是 YoloDataSets ，当然 YoloDataSets 也可以换成其他的
+  **mainpath** : `数据集的路径，这里是 YoloDataSets ，当然 YoloDataSets 也可以换成其他的`
 
-  **classes** : 所有标签的名称，请按照示例的格式填写
+  **classes** : `所有标签的名称，请按照示例的格式填写`
 
   ```python
   import argparse
