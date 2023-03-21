@@ -141,7 +141,7 @@
                                                                        yolov5x.pt       model/yolov5x.yaml               16
   ```
 
-* 目标检测预训练权重。
+* 官方提供的目标检测预训练权重。
   
   | Model                                                                                           | size<br><sup>(pixels) | mAP<sup>val<br>50-95 | mAP<sup>val<br>50 | Speed<br><sup>CPU b1<br>(ms) | Speed<br><sup>V100 b1<br>(ms) | Speed<br><sup>V100 b32<br>(ms) | params<br><sup>(M) | FLOPs<br><sup>@640 (B) |
   | ----------------------------------------------------------------------------------------------- | --------------------- | -------------------- | ----------------- | ---------------------------- | ----------------------------- | ------------------------------ | ------------------ | ---------------------- |
@@ -189,7 +189,7 @@
   python tools/train.py --batch 64 --conf configs/yolov6s6_finetune.py --data YoloDataSets/data.yaml --epochs 300  --device 0                 
   ```
 
-* 目标检测预训练权重。
+* 官方提供的目标检测预训练权重。
   
   | Model                                                        | Size | mAP<sup>val<br/>0.5:0.95 | Speed<sup>T4<br/>trt fp16 b1 <br/>(fps) | Speed<sup>T4<br/>trt fp16 b32 <br/>(fps) | Params<br/><sup> (M) | FLOPs<br/><sup> (G) |
   | :----------------------------------------------------------- | ---- | :----------------------- | --------------------------------------- | ---------------------------------------- | -------------------- | ------------------- |
@@ -237,7 +237,7 @@
   python train_aux.py --workers 8 --device 0 --batch-size 16 --data YoloDataSets/data.yaml --img 1280 1280 --cfg cfg/training/yolov7-w6-custom.yaml --weights 'yolov7-w6_training.pt' --name yolov7-w6-custom --hyp data/hyp.scratch.custom.yaml                
   ```
 
-* 目标检测预训练权重。
+* 官方提供的目标检测预训练权重。
   
   | Model | Test Size | AP<sup>test</sup> | AP<sub>50</sub><sup>test</sup> | AP<sub>75</sub><sup>test</sup> | batch 1 fps | batch 32 average time  |
   | :----: | :----: | :----: | :----: | :----: | :----: |:----------------------:|
@@ -286,7 +286,7 @@
                                     yolov8x.yaml
   ```
 
-* 目标检测预训练权重。
+* 官方提供的目标检测预训练权重。
   
   | 模型                                                                                   | 尺寸<br><sup>（像素） | mAP<sup>val<br>50-95 | 推理速度<br><sup>CPU ONNX<br>(ms) | 推理速度<br><sup>A100 TensorRT<br>(ms) | 参数量<br><sup>(M) | FLOPs<br><sup>(B) |
   | ------------------------------------------------------------------------------------ | --------------- | -------------------- | ----------------------------- | ---------------------------------- | --------------- | ----------------- |
