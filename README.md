@@ -45,7 +45,7 @@ This project mainly completed the following work:
    |        └——————2.jpg  
    |        └——————3.jpg
    |        └——————...
-   └——————Annotations/
+   |——————Annotations/
    |        └——————1.xml
    |        └——————2.xml  
    |        └——————3.xml
@@ -71,7 +71,7 @@ This project mainly completed the following work:
    |        └——————2.jpg  
    |        └——————3.jpg
    |        └——————...
-   └——————Annotations/
+   |——————Annotations/
    |        └——————1.xml
    |        └——————2.xml  
    |        └——————3.xml
