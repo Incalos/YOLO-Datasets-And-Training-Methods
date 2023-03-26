@@ -1,4 +1,4 @@
-# YOLO Datasets And Training Methods
+# YOLO算法的自定义数据集制作及模型训练方法
 
 本项目主要完成了以下工作：
 
@@ -45,7 +45,7 @@
    |        └——————2.jpg  
    |        └——————3.jpg
    |        └——————...
-   └——————Annotations/
+   |——————Annotations/
    |        └——————1.xml
    |        └——————2.xml  
    |        └——————3.xml
@@ -71,7 +71,7 @@
    |        └——————2.jpg  
    |        └——————3.jpg
    |        └——————...
-   └——————Annotations/
+   |——————Annotations/
    |        └——————1.xml
    |        └——————2.xml  
    |        └——————3.xml
