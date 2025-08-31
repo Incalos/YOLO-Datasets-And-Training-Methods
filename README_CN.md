@@ -85,11 +85,14 @@
                                   yolov6                    ···                ···             ····                   ['','',···]
                                   yolov7                    ···                ···             ····                   ['','',···]
                                   yolov8                    ···                ···             ····                   ['','',···]
+                                  yolov9                    ···                ···             ····                   ['','',···]
+                                  yolov10                   ···                ···             ····                   ['','',···]
+                                  yolov11                   ···                ···             ····                   ['','',···]
   ```
 
 * 各参数含义如下。
 
-  * **yoloversion** : `YOLO的版本，这里可供选择 YOLOv5、YOLOv6、YOLOv7、YOLOv8`
+  * **yoloversion** : `YOLO的版本，这里可供选择 YOLOv5、YOLOv6、YOLOv7、YOLOv8、YOLOv9、YOLOv10、YOLOv11`
 
   * **trainval_percent** : `训练集和验证集的总占比，即 1-trainval_percent 为测试集占比`
 
@@ -242,15 +245,15 @@
   |  [**YOLOv7-D6**](https://github.com/WongKinYiu/yolov7/releases/download/v0.1/yolov7-d6.pt)  |   1280   |     **56.6%**     |           **74.0%**           |           **61.8%**           |   44*fps*   |       15.0*ms*       |
   | [**YOLOv7-E6E**](https://github.com/WongKinYiu/yolov7/releases/download/v0.1/yolov7-e6e.pt) |   1280   |     **56.8%**     |           **74.4%**           |           **62.1%**           |   36*fps*   |       18.7*ms*       |
 
-### （4）YOLOv8的训练方法
+### （4）Ultralytics YOLO（YOLOv8/v9/v10/v11）的训练方法
 
-* 在终端输入如下命令，进入 **yolov8** 文件夹。
+* 在终端输入如下命令，进入 **Ultralytics** 文件夹。
 
   ```shell
-  cd yolov8
+  cd Ultralytics
   ```
 
-* 将转换后的数据集放在 **yolov8** 的根目录下。
+* 将转换后的数据集放在 **Ultralytics** 的根目录下。
 
 * 在 **YoloDataSets** 目录下添加 **.yaml** 配置文件 **data.yaml** ，内容和格式如下。
 
@@ -267,15 +270,73 @@
   names: ['dog','man']
   ```
 
-* 在终端运行如下命令，参数按实际情况进行调整。
+* **方法一：使用Python API训练（推荐）**
 
+  创建训练脚本 **train_ultralytics.py**：
+
+  ```python
+  from ultralytics import YOLO
+
+  # 加载模型
+  # YOLOv8: yolov8n.pt, yolov8s.pt, yolov8m.pt, yolov8l.pt, yolov8x.pt
+  # YOLOv9: yolov9c.pt, yolov9e.pt
+  # YOLOv10: yolov10n.pt, yolov10s.pt, yolov10m.pt, yolov10b.pt, yolov10l.pt, yolov10x.pt
+  # YOLOv11: yolov11n.pt, yolov11s.pt, yolov11m.pt, yolov11l.pt, yolov11x.pt
+  model = YOLO('yolov8n.pt')  # 可替换为其他版本
+
+  # 训练模型
+  results = model.train(
+      data='YoloDataSets/data.yaml',
+      epochs=300,
+      imgsz=640,
+      batch=16,
+      device=0,
+      project='runs/train',
+      name='ultralytics_custom'
+  )
   ```
-  yolo task=detect mode=train model=yolov8n.yaml data=YoloDataSets/data.yaml batch=28 epochs=300 imgsz=640 workers=32 device=0
-                                    yolov8s.yaml
-                                    yolov8m.yaml
-                                    yolov8l.yaml
-                                    yolov8x.yaml
+
+  运行训练：
+
+  ```shell
+  python train_ultralytics.py
   ```
+
+* **方法二：使用命令行训练**
+
+  ```shell
+  # YOLOv8 系列
+  yolo task=detect mode=train model=yolov8n.pt data=YoloDataSets/data.yaml batch=16 epochs=300 imgsz=640 device=0
+  yolo task=detect mode=train model=yolov8s.pt data=YoloDataSets/data.yaml batch=16 epochs=300 imgsz=640 device=0
+  yolo task=detect mode=train model=yolov8m.pt data=YoloDataSets/data.yaml batch=16 epochs=300 imgsz=640 device=0
+  yolo task=detect mode=train model=yolov8l.pt data=YoloDataSets/data.yaml batch=16 epochs=300 imgsz=640 device=0
+  yolo task=detect mode=train model=yolov8x.pt data=YoloDataSets/data.yaml batch=16 epochs=300 imgsz=640 device=0
+
+  # YOLOv9 系列
+  yolo task=detect mode=train model=yolov9c.pt data=YoloDataSets/data.yaml batch=16 epochs=300 imgsz=640 device=0
+  yolo task=detect mode=train model=yolov9e.pt data=YoloDataSets/data.yaml batch=16 epochs=300 imgsz=640 device=0
+
+  # YOLOv10 系列
+  yolo task=detect mode=train model=yolov10n.pt data=YoloDataSets/data.yaml batch=16 epochs=300 imgsz=640 device=0
+  yolo task=detect mode=train model=yolov10s.pt data=YoloDataSets/data.yaml batch=16 epochs=300 imgsz=640 device=0
+  yolo task=detect mode=train model=yolov10m.pt data=YoloDataSets/data.yaml batch=16 epochs=300 imgsz=640 device=0
+  yolo task=detect mode=train model=yolov10b.pt data=YoloDataSets/data.yaml batch=16 epochs=300 imgsz=640 device=0
+  yolo task=detect mode=train model=yolov10l.pt data=YoloDataSets/data.yaml batch=16 epochs=300 imgsz=640 device=0
+  yolo task=detect mode=train model=yolov10x.pt data=YoloDataSets/data.yaml batch=16 epochs=300 imgsz=640 device=0
+
+  # YOLOv11 系列
+  yolo task=detect mode=train model=yolov11n.pt data=YoloDataSets/data.yaml batch=16 epochs=300 imgsz=640 device=0
+  yolo task=detect mode=train model=yolov11s.pt data=YoloDataSets/data.yaml batch=16 epochs=300 imgsz=640 device=0
+  yolo task=detect mode=train model=yolov11m.pt data=YoloDataSets/data.yaml batch=16 epochs=300 imgsz=640 device=0
+  yolo task=detect mode=train model=yolov11l.pt data=YoloDataSets/data.yaml batch=16 epochs=300 imgsz=640 device=0
+  yolo task=detect mode=train model=yolov11x.pt data=YoloDataSets/data.yaml batch=16 epochs=300 imgsz=640 device=0
+  ```
+
+* **说明：**
+  - 所有YOLOv8/v9/v10/v11版本都使用相同的Ultralytics框架
+  - 支持直接使用预训练权重进行微调
+  - 可以通过修改 `model` 参数选择不同的YOLO版本
+  - 训练方法和参数设置完全一致
 
 * 官方提供的目标检测预训练权重如下。
 

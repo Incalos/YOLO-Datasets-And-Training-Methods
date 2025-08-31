@@ -7,7 +7,7 @@ import xml.etree.ElementTree as ET
 
 def parse_opt():
     parser = argparse.ArgumentParser()
-    parser.add_argument("--yoloversion", type=str, default='', help="optional: yolov5\yolov6\yolov7\yolov8")
+    parser.add_argument("--yoloversion", type=str, default='', help="optional: yolov5\yolov6\yolov7\yolov8\yolov9\yolov10\yolov11")
     parser.add_argument("--trainval_percent", type=float, default=0.9,
                         help="percentage of training set and validation set")
     parser.add_argument("--train_percent", type=float, default=0.9, help="percentage of training set")
@@ -181,3 +181,7 @@ if __name__ == '__main__':
                     shutil.move(jpgsavepath + f'/{image_id}{img_extension}', jpgpath)
                     shutil.move(labelsavepath + f'/{image_id}.txt', labelpath)
         print('Finished！')
+    elif opt.yoloversion in ['yolov8', 'yolov9', 'yolov10', 'yolov11']:
+        # Ultralytics YOLO版本使用与yolov5和yolov7相同的数据集格式
+        print(f'数据集转换完成！适用于 {opt.yoloversion.upper()} (Ultralytics框架)')
+        print('数据集格式：标准YOLO格式，可直接用于Ultralytics YOLO训练')

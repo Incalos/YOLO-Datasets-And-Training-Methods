@@ -85,11 +85,14 @@ This project mainly completed the following work:
                                   yolov6                    ···                ···             ····                   ['','',···]
                                   yolov7                    ···                ···             ····                   ['','',···]
                                   yolov8                    ···                ···             ····                   ['','',···]
+                                  yolov9                    ···                ···             ····                   ['','',···]
+                                  yolov10                   ···                ···             ····                   ['','',···]
+                                  yolov11                   ···                ···             ····                   ['','',···]
   ```
 
 * The meaning of each parameter in the command is as follows.
 
-  * **yoloversion** : `the version of YOLO, which you can choose YOLOv5, YOLOv6, YOLOv7 and YOLOv8`
+  * **yoloversion** : `the version of YOLO, which you can choose YOLOv5, YOLOv6, YOLOv7, YOLOv8, YOLOv9, YOLOv10 and YOLOv11`
   * **trainval_percent** : `the total percentage of the training and validation set`
   * **train_percent** : `the percentage of training set in training set and validation set`
   * **mainpath** : `the root directory of the custom dataset`
@@ -239,15 +242,15 @@ This project mainly completed the following work:
   |  [**YOLOv7-D6**](https://github.com/WongKinYiu/yolov7/releases/download/v0.1/yolov7-d6.pt)  |   1280   |     **56.6%**     |           **74.0%**           |           **61.8%**           |   44*fps*   |       15.0*ms*       |
   | [**YOLOv7-E6E**](https://github.com/WongKinYiu/yolov7/releases/download/v0.1/yolov7-e6e.pt) |   1280   |     **56.8%**     |           **74.4%**           |           **62.1%**           |   36*fps*   |       18.7*ms*       |
 
-### （4）Training method of YOLOv8
+### （4）Training method of Ultralytics YOLO (YOLOv8/v9/v10/v11)
 
-* Enter the following command in the terminal to access the folder named **yolov8**.
+* Enter the following command in the terminal to access the folder named **Ultralytics**.
 
   ```shell
-  cd yolov8
+  cd Ultralytics
   ```
-  
-* Place the converted dataset in the root directory of **yolov8**.
+
+* Place the converted dataset in the root directory of **Ultralytics**.
 
 * Add the **.yaml** configuration file named **data.yaml** to the directory of **YoloDataSets** with the following content and format.
 
@@ -264,23 +267,72 @@ This project mainly completed the following work:
   names: ['dog','man']
   ```
 
-* Run the following command in the terminal, with the parameters adjusted as appropriate.
+* **Method 1: Python API Training (Recommended)**
 
+  Create training script **train_ultralytics.py**:
+
+  ```python
+  from ultralytics import YOLO
+
+  # Load model
+  # YOLOv8: yolov8n.pt, yolov8s.pt, yolov8m.pt, yolov8l.pt, yolov8x.pt
+  # YOLOv9: yolov9c.pt, yolov9e.pt
+  # YOLOv10: yolov10n.pt, yolov10s.pt, yolov10m.pt, yolov10b.pt, yolov10l.pt, yolov10x.pt
+  # YOLOv11: yolov11n.pt, yolov11s.pt, yolov11m.pt, yolov11l.pt, yolov11x.pt
+  model = YOLO('yolov8n.pt')  # Can be replaced with other versions
+
+  # Train the model
+  results = model.train(
+      data='YoloDataSets/data.yaml',
+      epochs=300,
+      imgsz=640,
+      batch=16,
+      device=0,
+      project='runs/train',
+      name='ultralytics_custom'
+  )
   ```
-  yolo task=detect mode=train model=yolov8n.yaml data=YoloDataSets/data.yaml batch=28 epochs=300 imgsz=640 workers=32 device=0
-                                    yolov8s.yaml
-                                    yolov8m.yaml
-                                    yolov8l.yaml
-                                    yolov8x.yaml
+
+  Run training:
+
+  ```shell
+  python train_ultralytics.py
   ```
-  
-* The official pre-training weights for object detection are provided as follows.
-  
-  | Model                                                                                | size<br><sup>(pixels) | mAP<sup>val<br>50-95 | Speed<br><sup>CPU ONNX<br>(ms) | Speed<br><sup>A100 TensorRT<br>(ms) | params<br><sup>(M) | FLOPs<br><sup>(B) |
-  | ------------------------------------------------------------------------------------ | --------------------- | -------------------- | ------------------------------ | ----------------------------------- | ------------------ | ----------------- |
-  | [**YOLOv8n**](https://github.com/ultralytics/assets/releases/download/v0.0.0/yolov8n.pt) | 640                   | 37.3                 | 80.4                           | 0.99                                | 3.2                | 8.7               |
-  | [**YOLOv8s**](https://github.com/ultralytics/assets/releases/download/v0.0.0/yolov8s.pt) | 640                   | 44.9                 | 128.4                          | 1.20                                | 11.2               | 28.6              |
-  | [**YOLOv8m**](https://github.com/ultralytics/assets/releases/download/v0.0.0/yolov8m.pt) | 640                   | 50.2                 | 234.7                          | 1.83                                | 25.9               | 78.9              |
-  | [**YOLOv8l**](https://github.com/ultralytics/assets/releases/download/v0.0.0/yolov8l.pt) | 640                   | 52.9                 | 375.2                          | 2.39                                | 43.7               | 165.2             |
+
+* **Method 2: Command Line Training**
+
+  ```shell
+  # YOLOv8 series
+  yolo task=detect mode=train model=yolov8n.pt data=YoloDataSets/data.yaml batch=16 epochs=300 imgsz=640 device=0
+  yolo task=detect mode=train model=yolov8s.pt data=YoloDataSets/data.yaml batch=16 epochs=300 imgsz=640 device=0
+  yolo task=detect mode=train model=yolov8m.pt data=YoloDataSets/data.yaml batch=16 epochs=300 imgsz=640 device=0
+  yolo task=detect mode=train model=yolov8l.pt data=YoloDataSets/data.yaml batch=16 epochs=300 imgsz=640 device=0
+  yolo task=detect mode=train model=yolov8x.pt data=YoloDataSets/data.yaml batch=16 epochs=300 imgsz=640 device=0
+
+  # YOLOv9 series
+  yolo task=detect mode=train model=yolov9c.pt data=YoloDataSets/data.yaml batch=16 epochs=300 imgsz=640 device=0
+  yolo task=detect mode=train model=yolov9e.pt data=YoloDataSets/data.yaml batch=16 epochs=300 imgsz=640 device=0
+
+  # YOLOv10 series
+  yolo task=detect mode=train model=yolov10n.pt data=YoloDataSets/data.yaml batch=16 epochs=300 imgsz=640 device=0
+  yolo task=detect mode=train model=yolov10s.pt data=YoloDataSets/data.yaml batch=16 epochs=300 imgsz=640 device=0
+  yolo task=detect mode=train model=yolov10m.pt data=YoloDataSets/data.yaml batch=16 epochs=300 imgsz=640 device=0
+  yolo task=detect mode=train model=yolov10b.pt data=YoloDataSets/data.yaml batch=16 epochs=300 imgsz=640 device=0
+  yolo task=detect mode=train model=yolov10l.pt data=YoloDataSets/data.yaml batch=16 epochs=300 imgsz=640 device=0
+  yolo task=detect mode=train model=yolov10x.pt data=YoloDataSets/data.yaml batch=16 epochs=300 imgsz=640 device=0
+
+  # YOLOv11 series
+  yolo task=detect mode=train model=yolov11n.pt data=YoloDataSets/data.yaml batch=16 epochs=300 imgsz=640 device=0
+  yolo task=detect mode=train model=yolov11s.pt data=YoloDataSets/data.yaml batch=16 epochs=300 imgsz=640 device=0
+  yolo task=detect mode=train model=yolov11m.pt data=YoloDataSets/data.yaml batch=16 epochs=300 imgsz=640 device=0
+  yolo task=detect mode=train model=yolov11l.pt data=YoloDataSets/data.yaml batch=16 epochs=300 imgsz=640 device=0
+  yolo task=detect mode=train model=yolov11x.pt data=YoloDataSets/data.yaml batch=16 epochs=300 imgsz=640 device=0
+  ```
+
+* **Notes:**
+  - All YOLOv8/v9/v10/v11 versions use the same Ultralytics framework
+  - Support direct fine-tuning with pre-trained weights
+  - Different YOLO versions can be selected by modifying the `model` parameter
+  - Training methods and parameter settings are completely consistent
   | [**YOLOv8x**](https://github.com/ultralytics/assets/releases/download/v0.0.0/yolov8x.pt) | 640                   | 53.9                 | 479.1                          | 3.53                                | 68.2               | 257.8             |
 
