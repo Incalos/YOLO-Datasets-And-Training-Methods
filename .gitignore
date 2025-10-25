@@ -130,3 +130,7 @@ dmypy.json
 
 # Pyre type checker
 .pyre/
+/YoloDataSets/Annotations
+/YoloDataSets/images
+/YoloDataSets/labels
+/YoloDataSets/ImageSets

@@ -1,5 +1,7 @@
 # YOLO算法的自定义数据集制作及模型训练方法
 
+> **中文文档**: README_CN.md | **English Documentation**: [README.md](README.md)
+
 本项目主要完成了以下工作：
 
 * 详细介绍了怎样制作YOLO的自定义数据集以及如何使用自定义数据集训练YOLO模型。
@@ -14,29 +16,70 @@
 
 ### （2）安装并启动标注工具
 
-* 打开终端，输入以下命令完成标注工具 **labelimg** 的安装。
+* **安装Label Studio**
+
+  Label Studio是一个功能强大的开源数据标注平台，支持多种数据类型的标注，相比传统标注工具具有以下优势：
+  - 基于Web界面，无需复杂安装配置
+  - 支持多人协作标注
+  - 内置质量控制和进度管理
+  - 支持多种导出格式（YOLO、COCO、VOC等）
+  - 活跃的社区支持和持续更新
 
   ```shell
-  pip install labelimg -i https://pypi.tuna.tsinghua.edu.cn/simple
+  pip install label-studio
   ```
 
-* 在终端输入 `labelimg`，启动 **labelimg**，出现如下所示的界面。
+* **启动Label Studio**
 
-  ![](assets/labelimg.png)
+  ```shell
+  label-studio
+  ```
+
+  启动后会自动打开浏览器，访问 http://localhost:8080
+
+* **创建项目并配置**
+
+  1. 创建新项目
+  2. 上传您的图像数据
+  3. 选择 "Computer Vision" -> "Object Detection with Bounding Boxes" 模板
+  4. Label Studio会自动配置目标检测的标注界面
 
 ### （3）配置标注工具
 
-* 在 **View** 菜单中找到 **Auto Save mode**，点击 **Auto Save mode** 将标注过程设置成**自动保存模式**。
+* Label Studio的目标检测标注界面包含以下功能：
+  - 拖拽创建边界框
+  - 分配类别标签
+  - 键盘快捷键操作
+  - 自动保存标注结果
 
-  ![](assets/1.png)
-
-* 设置数据集格式，选择 **PascalVOC**。
-
-  ![](assets/2.png)
+* **导出设置**：
+  - 格式选择：YOLO格式
+  - 导出路径：项目设置中配置
 
 ### （4）标注数据
 
-* 建议YOLO的自定义数据集设置成如下的目录结构。其中 **YoloDataSets** 为数据集的根目录，**images** 文件夹内放置待标注的图片，**Annotations** 文件夹内放置标注工具生成的标签。
+* **Label Studio标注流程**：
+
+  1. **上传图像**：在Label Studio项目中批量上传待标注的图像
+  
+  2. **开始标注**：
+     - 选择图像进入标注界面
+     - 使用鼠标拖拽创建边界框
+     - 为每个边界框分配正确的类别标签
+     - 使用键盘快捷键提高标注效率
+
+  3. **质量控制**：
+     - 预览和编辑已标注的数据
+     - 支持多人协作标注
+     - 标注进度实时跟踪
+
+* **导出标注数据**：
+
+  完成标注后，在Label Studio中导出数据：
+  - 选择导出格式：YOLO或COCO格式
+  - 如果选择COCO格式，后续需要转换为YOLO格式
+
+* **推荐目录结构**：
 
   ```shell
   YoloDataSets/
@@ -45,22 +88,18 @@
    |        └——————2.jpg  
    |        └——————3.jpg
    |        └——————...
-   |——————Annotations/
+   |——————Annotations/  (如果使用VOC/XML格式)
    |        └——————1.xml
    |        └——————2.xml  
    |        └——————3.xml
    |        └——————...
   ```
 
-* 点击 **Open Dir** 选择 **images** 文件夹，打开待标注的图片。
+### （5）数据集格式转换
 
-* 点击 **Change Save Dir** 选择 **Annotations** 文件夹，将标签保存在 **Annotations** 文件夹。
+* **如果Label Studio导出的是YOLO格式**，可以直接使用，无需转换。
 
-* 开始标图，详细过程如下。
-
-  ![](assets/video.gif)
-
-### （5）将VOC格式数据集转换成YOLO格式数据集
+* **如果导出的是COCO或VOC格式**，需要使用以下方法转换：
 
 * 将标注好的数据集按以下结构保存。
 
@@ -85,11 +124,14 @@
                                   yolov6                    ···                ···             ····                   ['','',···]
                                   yolov7                    ···                ···             ····                   ['','',···]
                                   yolov8                    ···                ···             ····                   ['','',···]
+                                  yolov9                    ···                ···             ····                   ['','',···]
+                                  yolov10                   ···                ···             ····                   ['','',···]
+                                  yolov11                   ···                ···             ····                   ['','',···]
   ```
 
 * 各参数含义如下。
 
-  * **yoloversion** : `YOLO的版本，这里可供选择 YOLOv5、YOLOv6、YOLOv7、YOLOv8`
+  * **yoloversion** : `YOLO的版本，这里可供选择 YOLOv5、YOLOv6、YOLOv7、YOLOv8、YOLOv9、YOLOv10、YOLOv11`
 
   * **trainval_percent** : `训练集和验证集的总占比，即 1-trainval_percent 为测试集占比`
 
@@ -242,20 +284,37 @@
   |  [**YOLOv7-D6**](https://github.com/WongKinYiu/yolov7/releases/download/v0.1/yolov7-d6.pt)  |   1280   |     **56.6%**     |           **74.0%**           |           **61.8%**           |   44*fps*   |       15.0*ms*       |
   | [**YOLOv7-E6E**](https://github.com/WongKinYiu/yolov7/releases/download/v0.1/yolov7-e6e.pt) |   1280   |     **56.8%**     |           **74.4%**           |           **62.1%**           |   36*fps*   |       18.7*ms*       |
 
-### （4）YOLOv8的训练方法
+### （4）Ultralytics YOLO（YOLOv8/v9/v10/v11）的训练方法
 
-* 在终端输入如下命令，进入 **yolov8** 文件夹。
+* **步骤1：拉取Ultralytics仓库**
+
+  在项目根目录下执行以下命令，拉取最新的Ultralytics YOLO框架：
 
   ```shell
-  cd yolov8
+  git clone https://github.com/ultralytics/ultralytics.git Ultralytics
+  cd Ultralytics
   ```
 
-* 将转换后的数据集放在 **yolov8** 的根目录下。
+  或者直接从官网下载：[Ultralytics YOLO](https://github.com/ultralytics/ultralytics)
 
-* 在 **YoloDataSets** 目录下添加 **.yaml** 配置文件 **data.yaml** ，内容和格式如下。
+* **步骤2：安装依赖**
+
+  ```shell
+  pip install ultralytics
+  ```
+
+  或者安装完整依赖：
+
+  ```shell
+  pip install -r requirements.txt
+  ```
+
+* **步骤3：准备数据集**
+
+  将转换后的数据集放在 **Ultralytics** 文件夹下，并在 **YoloDataSets** 目录下添加 **.yaml** 配置文件 **data.yaml** ，内容和格式如下。
 
   ```
-  path : ../YoloDataSets
+  path : YoloDataSets  # 注意：相对于Ultralytics文件夹的路径
   train: train.txt
   val: val.txt
   test: test.txt
@@ -267,17 +326,121 @@
   names: ['dog','man']
   ```
 
-* 在终端运行如下命令，参数按实际情况进行调整。
+* **步骤4：开始训练**
+
+  **方法一：使用Python API训练（推荐）**
+
+  在Ultralytics文件夹中创建训练脚本 **train_custom.py**：
+
+  ```python
+  from ultralytics import YOLO
+
+  # 加载模型
+  # YOLOv8: yolov8n.pt, yolov8s.pt, yolov8m.pt, yolov8l.pt, yolov8x.pt
+  # YOLOv9: yolov9c.pt, yolov9e.pt
+  # YOLOv10: yolov10n.pt, yolov10s.pt, yolov10m.pt, yolov10b.pt, yolov10l.pt, yolov10x.pt
+  # YOLOv11: yolov11n.pt, yolov11s.pt, yolov11m.pt, yolov11l.pt, yolov11x.pt
+  model = YOLO('yolov8n.pt')  # 可替换为其他版本
+
+  # 训练模型
+  results = model.train(
+      data='YoloDataSets/data.yaml',
+      epochs=100,
+      imgsz=640,
+      batch=16,
+      device=0,
+      project='runs/train',
+      name='custom_dataset'
+  )
+  
+  # 验证模型
+  metrics = model.val()
+  print(f"mAP50-95: {metrics.box.map:.4f}")
+  ```
+
+  运行训练：
+
+  ```shell
+  python train_custom.py
+  ```
+
+* **方法二：使用命令行训练**
+
+  ```shell
+  # YOLOv8 系列
+  yolo task=detect mode=train model=yolov8n.pt data=YoloDataSets/data.yaml batch=16 epochs=300 imgsz=640 device=0
+  yolo task=detect mode=train model=yolov8s.pt data=YoloDataSets/data.yaml batch=16 epochs=300 imgsz=640 device=0
+  yolo task=detect mode=train model=yolov8m.pt data=YoloDataSets/data.yaml batch=16 epochs=300 imgsz=640 device=0
+  yolo task=detect mode=train model=yolov8l.pt data=YoloDataSets/data.yaml batch=16 epochs=300 imgsz=640 device=0
+  yolo task=detect mode=train model=yolov8x.pt data=YoloDataSets/data.yaml batch=16 epochs=300 imgsz=640 device=0
+
+  # YOLOv9 系列
+  yolo task=detect mode=train model=yolov9c.pt data=YoloDataSets/data.yaml batch=16 epochs=300 imgsz=640 device=0
+  yolo task=detect mode=train model=yolov9e.pt data=YoloDataSets/data.yaml batch=16 epochs=300 imgsz=640 device=0
+
+  # YOLOv10 系列
+  yolo task=detect mode=train model=yolov10n.pt data=YoloDataSets/data.yaml batch=16 epochs=300 imgsz=640 device=0
+  yolo task=detect mode=train model=yolov10s.pt data=YoloDataSets/data.yaml batch=16 epochs=300 imgsz=640 device=0
+  yolo task=detect mode=train model=yolov10m.pt data=YoloDataSets/data.yaml batch=16 epochs=300 imgsz=640 device=0
+  yolo task=detect mode=train model=yolov10b.pt data=YoloDataSets/data.yaml batch=16 epochs=300 imgsz=640 device=0
+  yolo task=detect mode=train model=yolov10l.pt data=YoloDataSets/data.yaml batch=16 epochs=300 imgsz=640 device=0
+  yolo task=detect mode=train model=yolov10x.pt data=YoloDataSets/data.yaml batch=16 epochs=300 imgsz=640 device=0
+
+  # YOLOv11 系列
+  yolo task=detect mode=train model=yolov11n.pt data=YoloDataSets/data.yaml batch=16 epochs=300 imgsz=640 device=0
+  yolo task=detect mode=train model=yolov11s.pt data=YoloDataSets/data.yaml batch=16 epochs=300 imgsz=640 device=0
+  yolo task=detect mode=train model=yolov11m.pt data=YoloDataSets/data.yaml batch=16 epochs=300 imgsz=640 device=0
+  yolo task=detect mode=train model=yolov11l.pt data=YoloDataSets/data.yaml batch=16 epochs=300 imgsz=640 device=0
+  yolo task=detect mode=train model=yolov11x.pt data=YoloDataSets/data.yaml batch=16 epochs=300 imgsz=640 device=0
+  ```
+
+* **项目结构说明：**
+
+  完成上述步骤后，您的项目目录结构应该如下：
 
   ```
-  yolo task=detect mode=train model=yolov8n.yaml data=YoloDataSets/data.yaml batch=28 epochs=300 imgsz=640 workers=32 device=0
-                                    yolov8s.yaml
-                                    yolov8m.yaml
-                                    yolov8l.yaml
-                                    yolov8x.yaml
+  YOLO-Datasets-And-Training-Methods/
+  ├── assets/
+  ├── yolov5/
+  ├── yolov6/
+  ├── yolov7/
+  ├── Ultralytics/                    # 新拉取的Ultralytics仓库
+  │   ├── ultralytics/               # 核心框架
+  │   ├── YoloDataSets/              # 您的数据集
+  │   │   ├── data.yaml              # 数据集配置
+  │   │   ├── images/
+  │   │   ├── labels/
+  │   │   ├── train.txt
+  │   │   ├── val.txt
+  │   │   └── test.txt
+  │   ├── train_custom.py            # 您创建的训练脚本
+  │   └── runs/                      # 训练结果
+  ├── DataSet.py
+  └── README_CN.md
   ```
 
-* 官方提供的目标检测预训练权重如下。
+* **重要提示：**
+  - 所有YOLOv8/v9/v10/v11版本都使用相同的Ultralytics框架
+  - 支持直接使用预训练权重进行微调
+  - 可以通过修改 `model` 参数选择不同的YOLO版本
+  - 训练方法和参数设置完全一致
+  - 建议在Ultralytics文件夹中进行所有训练操作
+
+* **额外功能：**
+
+  ```python
+  # 推理
+  model = YOLO('runs/train/custom_dataset/weights/best.pt')
+  results = model('path/to/image.jpg')
+
+  # 验证
+  metrics = model.val(data='YoloDataSets/data.yaml')
+
+  # 导出
+  model.export(format='onnx')  # 支持多种格式
+  ```
+
+* 官方提供的目标检测预训练权重如下（YOLOv8）。
 
   | Model                                                                                | size<br><sup>(pixels) | mAP<sup>val<br>50-95 | Speed<br><sup>CPU ONNX<br>(ms) | Speed<br><sup>A100 TensorRT<br>(ms) | params<br><sup>(M) | FLOPs<br><sup>(B) |
   | ------------------------------------------------------------------------------------ | --------------------- | -------------------- | ------------------------------ | ----------------------------------- | ------------------ | ----------------- |
